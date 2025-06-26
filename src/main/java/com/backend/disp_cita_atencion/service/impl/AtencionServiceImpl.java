@@ -96,6 +96,12 @@ public class AtencionServiceImpl implements AtencionService {
     public void eliminarAtencion(Long id) {
         Atencion atencion = atencionRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Atención no encontrada"));
+
+        Cita cita = atencion.getCita();
+        if (cita != null) {
+            cita.setAtencion(null);
+            citaRepository.save(cita);
+        }
         atencionRepository.delete(atencion);
     }
 

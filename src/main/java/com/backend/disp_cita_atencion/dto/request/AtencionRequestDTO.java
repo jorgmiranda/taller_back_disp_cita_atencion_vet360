@@ -4,10 +4,13 @@ package com.backend.disp_cita_atencion.dto.request;
 import java.util.Date;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class AtencionRequestDTO {
     private String diagnostico;
     private String tratamiento;
     private String observaciones;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
     private Date fecha;
     private Integer totalCosto;
     private String usernameKeycloak;

@@ -17,11 +17,11 @@ public class Raza {
     @Column(name = "id_raza")
     private Long idRaza;
 
-    @Column(name = "nombre_raza", nullable = false, length = 100)
+    @Column(name = "nombre", nullable = false, length = 100)
     private String nombreRaza;
 
     @ManyToOne
-    @JoinColumn(name = "especie_id_especie", nullable = false)
+    @JoinColumn(name = "id_especie", nullable = false)
     private Especie especie;
 
     public Raza() {

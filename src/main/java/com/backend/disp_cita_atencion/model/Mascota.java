@@ -40,11 +40,11 @@ public class Mascota {
     private Boolean estado;
 
     @ManyToOne
-    @JoinColumn(name = "dueno_id_dueno", nullable = false)
+    @JoinColumn(name = "id_dueno", nullable = false)
     private Dueno dueno;
 
     @ManyToOne
-    @JoinColumn(name = "raza_id_raza", nullable = false)
+    @JoinColumn(name = "id_raza", nullable = false)
     private Raza raza;
 
     @OneToMany(mappedBy = "mascota")
