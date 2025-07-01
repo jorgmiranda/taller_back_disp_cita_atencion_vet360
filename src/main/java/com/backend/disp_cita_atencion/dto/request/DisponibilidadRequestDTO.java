@@ -4,15 +4,15 @@ import java.util.Date;
 
 public class DisponibilidadRequestDTO {
     private Date fecha;
-    private Double horaInicio;
-    private Double horaFin;
+    private String horaInicio;
+    private String horaFin;
     private Boolean disponible;
     private String usernameKeycloak;
 
     public DisponibilidadRequestDTO() {
     }
 
-    public DisponibilidadRequestDTO(Date fecha, Double horaInicio, Double horaFin, Boolean disponible,
+    public DisponibilidadRequestDTO(Date fecha, String horaInicio, String horaFin, Boolean disponible,
             String usernameKeycloak) {
         this.fecha = fecha;
         this.horaInicio = horaInicio;
@@ -29,19 +29,19 @@ public class DisponibilidadRequestDTO {
         this.fecha = fecha;
     }
 
-    public Double getHoraInicio() {
+    public String getHoraInicio() {
         return horaInicio;
     }
 
-    public void setHoraInicio(Double horaInicio) {
+    public void setHoraInicio(String horaInicio) {
         this.horaInicio = horaInicio;
     }
 
-    public Double getHoraFin() {
+    public String getHoraFin() {
         return horaFin;
     }
 
-    public void setHoraFin(Double horaFin) {
+    public void setHoraFin(String horaFin) {
         this.horaFin = horaFin;
     }
 
