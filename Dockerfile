@@ -34,4 +34,4 @@ EXPOSE 8082
 ENTRYPOINT ["java", "-jar", "/app/app.jar"]
 
 # docker build -t disp_cita_atencion .
-# docker run -p 8082:8082 disp_cita_atencion
+# docker run -d -p 8082:8082 --name disp_cita_atencion_app --restart unless-stopped disp_cita_atencion
