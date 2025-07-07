@@ -24,10 +24,10 @@ public class Disponibilidad {
     private Date fecha;
 
     @Column(name = "hora_inicio", nullable = false)
-    private Double horaInicio;
+    private String horaInicio;
 
     @Column(name = "hora_fin", nullable = false)
-    private Double horaFin;
+    private String horaFin;
 
     @Column(nullable = false)
     private Boolean disponible;
@@ -38,7 +38,7 @@ public class Disponibilidad {
     public Disponibilidad() {
     }
 
-    public Disponibilidad(Long idDisponibilidad, Date fecha, Double horaInicio, Double horaFin,
+    public Disponibilidad(Long idDisponibilidad, Date fecha, String horaInicio, String horaFin,
             Boolean disponible, String usernameKeycloak) {
         this.idDisponibilidad = idDisponibilidad;
         this.fecha = fecha;
@@ -64,19 +64,19 @@ public class Disponibilidad {
         this.fecha = fecha;
     }
 
-    public Double getHoraInicio() {
+    public String getHoraInicio() {
         return horaInicio;
     }
 
-    public void setHoraInicio(Double horaInicio) {
+    public void setHoraInicio(String horaInicio) {
         this.horaInicio = horaInicio;
     }
 
-    public Double getHoraFin() {
+    public String getHoraFin() {
         return horaFin;
     }
 
-    public void setHoraFin(Double horaFin) {
+    public void setHoraFin(String horaFin) {
         this.horaFin = horaFin;
     }
 
