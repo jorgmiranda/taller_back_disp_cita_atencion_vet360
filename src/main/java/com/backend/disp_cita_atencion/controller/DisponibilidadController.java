@@ -1,7 +1,6 @@
 package com.backend.disp_cita_atencion.controller;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,6 +69,7 @@ public class DisponibilidadController {
     }
 
     @GetMapping("/fechas-disponibles/{usernameKeycloak}")
+    @PreAuthorize("hasAnyRole('ADMIN', 'VETERINARIO', 'ASISTENTE')")
     public ResponseEntity<ApiResponse<List<LocalDate>>> getFechasDisponiblesPorVeterinario(
             @PathVariable String usernameKeycloak) {
         List<LocalDate> fechas = disponibilidadService.obtenerFechasDisponiblesPorVeterinario(usernameKeycloak);
@@ -77,6 +77,7 @@ public class DisponibilidadController {
     }
 
     @GetMapping("/disponibilidades")
+    @PreAuthorize("hasAnyRole('ADMIN', 'VETERINARIO', 'ASISTENTE')")
     public ResponseEntity<ApiResponse<List<DisponibilidadResponseDTO>>> getDisponibilidadesPorVeterinarioYFecha(
             @RequestParam String usernameKeycloak,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fecha) {
