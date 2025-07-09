@@ -1,11 +1,10 @@
 package com.backend.disp_cita_atencion.dto.response;
 
-
-import java.util.Date;
+import java.time.LocalDate;
 
 public class DisponibilidadResponseDTO {
     private Long id;
-    private Date fecha;
+    private LocalDate fecha;
     private String horaInicio;
     private String horaFin;
     private Boolean disponible;
@@ -14,7 +13,7 @@ public class DisponibilidadResponseDTO {
     public DisponibilidadResponseDTO() {
     }
 
-    public DisponibilidadResponseDTO(Long id, Date fecha, String horaInicio, String horaFin, Boolean disponible,
+    public DisponibilidadResponseDTO(Long id, LocalDate fecha, String horaInicio, String horaFin, Boolean disponible,
             String usernameKeycloak) {
         this.id = id;
         this.fecha = fecha;
@@ -32,11 +31,11 @@ public class DisponibilidadResponseDTO {
         this.id = id;
     }
 
-    public Date getFecha() {
+    public LocalDate getFecha() {
         return fecha;
     }
 
-    public void setFecha(Date fecha) {
+    public void setFecha(LocalDate fecha) {
         this.fecha = fecha;
     }
 

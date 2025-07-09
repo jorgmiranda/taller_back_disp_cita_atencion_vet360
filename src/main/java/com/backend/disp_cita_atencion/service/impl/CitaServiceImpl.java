@@ -34,6 +34,7 @@ public class CitaServiceImpl implements CitaService {
     @Override
     public List<CitaResponseDTO> obtenerCitasActivas() {
         return citaRepository.findAll().stream()
+                .filter(c -> !"CANCELADA".equalsIgnoreCase(c.getEstado()))
                 .map(this::convertirADTO)
                 .collect(Collectors.toList());
     }
@@ -52,6 +53,9 @@ public class CitaServiceImpl implements CitaService {
 
         Mascota mascota = mascotaRepository.findById(dto.getMascotaId())
                 .orElseThrow(() -> new ResourceNotFoundException("Mascota no encontrada"));
+
+        disponibilidad.setDisponible(false);
+        disponibilidadRepository.save(disponibilidad);
 
         Cita cita = new Cita();
         cita.setFechaHoraInicio(dto.getFechaHoraInicio());
@@ -95,8 +99,18 @@ public class CitaServiceImpl implements CitaService {
     public void eliminarCita(Long id) {
         Cita cita = citaRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Cita no encontrada"));
-        citaRepository.delete(cita); // aquí se elimina completamente, o puedes cambiar por lógica de 'estado' si lo
-                                     // necesitas
+
+        // Marcar cita como cancelada
+        cita.setEstado("CANCELADA");
+
+        // Reactivar la disponibilidad asociada
+        Disponibilidad disponibilidad = cita.getDisponibilidad();
+        if (disponibilidad != null) {
+            disponibilidad.setDisponible(true);
+            disponibilidadRepository.save(disponibilidad);
+        }
+
+        citaRepository.save(cita);
     }
 
     private CitaResponseDTO convertirADTO(Cita cita) {
