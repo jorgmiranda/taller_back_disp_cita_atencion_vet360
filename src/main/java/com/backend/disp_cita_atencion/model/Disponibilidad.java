@@ -31,7 +31,7 @@ public class Disponibilidad {
     @Column(nullable = false)
     private Boolean disponible;
 
-    @Column(name = "username_keycloak", nullable = false, length = 30)
+    @Column(name = "username_keycloak", nullable = false, length = 100)
     private String usernameKeycloak;
 
     public Disponibilidad() {
