@@ -39,7 +39,7 @@ public class Atencion {
     @Column(name = "total_costo", nullable = false)
     private Integer totalCosto;
 
-    @Column(name = "username_keycloak", nullable = false, length = 30)
+    @Column(name = "username_keycloak", nullable = false, length = 100)
     private String usernameKeycloak;
 
     @OneToOne
