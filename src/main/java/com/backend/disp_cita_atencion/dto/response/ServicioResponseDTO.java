@@ -58,4 +58,18 @@ public class ServicioResponseDTO {
     public void setInsumos(List<InsumoResponseDTO> insumos) {
         this.insumos = insumos;
     }
+
+    public ServicioResponseDTO(Long id, String nombreServicio, String descripcionServicio,
+                           Integer precio, Boolean estado, List<InsumoResponseDTO> insumos) {
+        this.id = id;
+        this.nombreServicio = nombreServicio;
+        this.descripcionServicio = descripcionServicio;
+        this.precio = precio;
+        this.estado = estado;
+        this.insumos = insumos;
+    }
+
+    public ServicioResponseDTO() {
+        // Constructor por defecto
+    }
 }

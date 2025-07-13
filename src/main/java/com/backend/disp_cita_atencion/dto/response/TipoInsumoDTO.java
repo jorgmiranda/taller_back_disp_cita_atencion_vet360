@@ -5,6 +5,17 @@ public class TipoInsumoDTO {
     private String nombreTipo;
     private Boolean estado;
 
+    // Constructor vacío (si lo usas para deserialización de JSON)
+    public TipoInsumoDTO() {
+    }
+
+    // Constructor con todos los campos - ¡AÑADE ESTE!
+    public TipoInsumoDTO(Long id, String nombreTipo, Boolean estado) {
+        this.id = id;
+        this.nombreTipo = nombreTipo;
+        this.estado = estado;
+    }
+    
     public Long getId() {
         return id;
     }
