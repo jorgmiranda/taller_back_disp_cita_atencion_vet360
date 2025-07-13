@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.backend.disp_cita_atencion.dto.request.AtencionRequestDTO;
@@ -23,7 +24,7 @@ import com.backend.disp_cita_atencion.service.AtencionService;
 
 @RestController
 @RequestMapping("/api/atencion")
-//@CrossOrigin(origins = "*")
+// @CrossOrigin(origins = "*")
 public class AtencionController {
 
     @Autowired
@@ -62,5 +63,14 @@ public class AtencionController {
     public ResponseEntity<ApiResponse<Void>> delete(@PathVariable Long id) {
         atencionService.eliminarAtencion(id);
         return ResponseEntity.ok(ApiResponse.exito("Eliminado correctamente", null));
+    }
+
+    @GetMapping("/por-usuario/{usernameKeycloak}")
+    public ResponseEntity<ApiResponse<List<AtencionResponseDTO>>> buscarPorUsuario(
+            @PathVariable String usernameKeycloak,
+            @RequestParam(required = false) Boolean estado) {
+
+        List<AtencionResponseDTO> resultado = atencionService.buscarAtencionesPorUsuario(usernameKeycloak, estado);
+        return ResponseEntity.ok(ApiResponse.exito("Listado exitoso", resultado));
     }
 }

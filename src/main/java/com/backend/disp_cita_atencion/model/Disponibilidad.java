@@ -1,7 +1,6 @@
 package com.backend.disp_cita_atencion.model;
 
-import java.util.Date;
-
+import java.time.LocalDate;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -21,7 +20,7 @@ public class Disponibilidad {
 
     @Temporal(TemporalType.DATE)
     @Column(nullable = false)
-    private Date fecha;
+    private LocalDate fecha;
 
     @Column(name = "hora_inicio", nullable = false)
     private String horaInicio;
@@ -32,13 +31,13 @@ public class Disponibilidad {
     @Column(nullable = false)
     private Boolean disponible;
 
-    @Column(name = "username_keycloak", nullable = false, length = 30)
+    @Column(name = "username_keycloak", nullable = false, length = 100)
     private String usernameKeycloak;
 
     public Disponibilidad() {
     }
 
-    public Disponibilidad(Long idDisponibilidad, Date fecha, String horaInicio, String horaFin,
+    public Disponibilidad(Long idDisponibilidad, LocalDate fecha, String horaInicio, String horaFin,
             Boolean disponible, String usernameKeycloak) {
         this.idDisponibilidad = idDisponibilidad;
         this.fecha = fecha;
@@ -56,11 +55,11 @@ public class Disponibilidad {
         this.idDisponibilidad = idDisponibilidad;
     }
 
-    public Date getFecha() {
+    public LocalDate getFecha() {
         return fecha;
     }
 
-    public void setFecha(Date fecha) {
+    public void setFecha(LocalDate fecha) {
         this.fecha = fecha;
     }
 

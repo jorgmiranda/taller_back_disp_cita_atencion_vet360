@@ -1,9 +1,9 @@
 package com.backend.disp_cita_atencion.dto.request;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public class DisponibilidadRequestDTO {
-    private Date fecha;
+    private LocalDate fecha;
     private String horaInicio;
     private String horaFin;
     private Boolean disponible;
@@ -12,7 +12,7 @@ public class DisponibilidadRequestDTO {
     public DisponibilidadRequestDTO() {
     }
 
-    public DisponibilidadRequestDTO(Date fecha, String horaInicio, String horaFin, Boolean disponible,
+    public DisponibilidadRequestDTO(LocalDate fecha, String horaInicio, String horaFin, Boolean disponible,
             String usernameKeycloak) {
         this.fecha = fecha;
         this.horaInicio = horaInicio;
@@ -21,11 +21,11 @@ public class DisponibilidadRequestDTO {
         this.usernameKeycloak = usernameKeycloak;
     }
 
-    public Date getFecha() {
+    public LocalDate getFecha() {
         return fecha;
     }
 
-    public void setFecha(Date fecha) {
+    public void setFecha(LocalDate fecha) {
         this.fecha = fecha;
     }
 

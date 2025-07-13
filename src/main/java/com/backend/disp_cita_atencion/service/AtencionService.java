@@ -16,4 +16,6 @@ public interface AtencionService {
     AtencionResponseDTO actualizarAtencion(Long id, AtencionRequestDTO dto);
 
     void eliminarAtencion(Long id);
+
+    List<AtencionResponseDTO> buscarAtencionesPorUsuario(String usernameKeycloak, Boolean estado);
 }

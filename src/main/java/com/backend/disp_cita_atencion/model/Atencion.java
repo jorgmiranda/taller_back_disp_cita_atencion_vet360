@@ -1,4 +1,5 @@
 package com.backend.disp_cita_atencion.model;
+
 import java.util.Date;
 import java.util.List;
 
@@ -39,8 +40,11 @@ public class Atencion {
     @Column(name = "total_costo", nullable = false)
     private Integer totalCosto;
 
-    @Column(name = "username_keycloak", nullable = false, length = 30)
+    @Column(name = "username_keycloak", nullable = false, length = 100)
     private String usernameKeycloak;
+
+    @Column(nullable = false)
+    private Boolean estado = true;
 
     @OneToOne
     @JoinColumn(name = "cita_id_cita", nullable = false, unique = true)
@@ -53,10 +57,8 @@ public class Atencion {
     public Atencion() {
     }
 
-    
-
     public Atencion(Long idAtencion, String diagnostico, String tratamiento, String observaciones, Date fecha,
-            Integer totalCosto, String usernameKeycloak, Cita cita, List<Servicio> servicios) {
+            Integer totalCosto, String usernameKeycloak, Boolean estado, Cita cita, List<Servicio> servicios) {
         this.idAtencion = idAtencion;
         this.diagnostico = diagnostico;
         this.tratamiento = tratamiento;
@@ -64,17 +66,16 @@ public class Atencion {
         this.fecha = fecha;
         this.totalCosto = totalCosto;
         this.usernameKeycloak = usernameKeycloak;
+        this.estado = estado;
         this.cita = cita;
         this.servicios = servicios;
     }
 
-
-
-    public Long  getIdAtencion() {
+    public Long getIdAtencion() {
         return idAtencion;
     }
 
-    public void setIdAtencion(Long  idAtencion) {
+    public void setIdAtencion(Long idAtencion) {
         this.idAtencion = idAtencion;
     }
 
@@ -138,11 +139,16 @@ public class Atencion {
         return servicios;
     }
 
-
-
     public void setServicios(List<Servicio> servicios) {
         this.servicios = servicios;
     }
 
-    
+    public Boolean getEstado() {
+        return estado;
+    }
+
+    public void setEstado(Boolean estado) {
+        this.estado = estado;
+    }
+
 }

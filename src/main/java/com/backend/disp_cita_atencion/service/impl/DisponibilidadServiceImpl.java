@@ -1,5 +1,6 @@
 package com.backend.disp_cita_atencion.service.impl;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -65,6 +66,20 @@ public class DisponibilidadServiceImpl implements DisponibilidadService {
                 .orElseThrow(() -> new ResourceNotFoundException("Disponibilidad no encontrada"));
         d.setDisponible(false);
         disponibilidadRepository.save(d);
+    }
+
+    @Override
+    public List<DisponibilidadResponseDTO> buscarDisponibilidadesPorVeterinario(String usernameKeycloak,
+            LocalDate fecha) {
+        return disponibilidadRepository.findByUsernameKeycloakAndFechaAndDisponibleTrue(usernameKeycloak, fecha)
+                .stream()
+                .map(this::convertirADTO)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<LocalDate> obtenerFechasDisponiblesPorVeterinario(String usernameKeycloak) {
+        return disponibilidadRepository.findFechasDisponiblesByUsernameKeycloak(usernameKeycloak);
     }
 
     private DisponibilidadResponseDTO convertirADTO(Disponibilidad d) {

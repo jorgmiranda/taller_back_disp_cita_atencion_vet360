@@ -15,4 +15,6 @@ public interface CitaService {
     CitaResponseDTO actualizarCita(Long id, CitaRequestDTO dto);
 
     void eliminarCita(Long id);
+
+    List<CitaResponseDTO> obtenerCitasPorUsernameKeycloak(String username);
 }

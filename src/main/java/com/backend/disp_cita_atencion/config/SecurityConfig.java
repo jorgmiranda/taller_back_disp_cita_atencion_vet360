@@ -56,7 +56,7 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         // Orígenes permitidos - Ajusta esto para tu frontend real en producción
-        configuration.setAllowedOrigins(List.of("http://localhost:4200")); // O Collections.singletonList("http://localhost:4200");
+        configuration.setAllowedOrigins(List.of("http://localhost:4200", "https://funny-alfajores-7e9e6e.netlify.app")); // O Collections.singletonList("http://localhost:4200");
         // Métodos permitidos
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
         // Encabezados permitidos - Importante incluir Authorization para JWTs

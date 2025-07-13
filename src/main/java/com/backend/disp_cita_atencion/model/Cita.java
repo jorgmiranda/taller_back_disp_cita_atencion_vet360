@@ -35,7 +35,7 @@ public class Cita {
     @Column(nullable = false, length = 255)
     private String motivo;
 
-    @Column(name = "username_keycloak", nullable = false, length = 30)
+    @Column(name = "username_keycloak", nullable = false, length = 100)
     private String usernameKeycloak;
 
     @ManyToOne
