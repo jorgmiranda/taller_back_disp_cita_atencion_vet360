@@ -34,14 +34,14 @@ public class AtencionServiceImpl implements AtencionService {
 
     @Override
     public List<AtencionResponseDTO> obtenerAtenciones() {
-        return atencionRepository.findAll().stream()
+        return atencionRepository.findByEstadoTrue().stream()
                 .map(this::convertirADTO)
                 .collect(Collectors.toList());
     }
 
     @Override
     public AtencionResponseDTO buscarAtencionPorId(Long id) {
-        Atencion atencion = atencionRepository.findById(id)
+        Atencion atencion = atencionRepository.findByIdAtencionAndEstadoTrue(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Atención no encontrada"));
         return convertirADTO(atencion);
     }
@@ -51,7 +51,15 @@ public class AtencionServiceImpl implements AtencionService {
         Cita cita = citaRepository.findById(dto.getCitaId())
                 .orElseThrow(() -> new ResourceNotFoundException("Cita no encontrada"));
 
+        if (!"ACTIVA".equalsIgnoreCase(cita.getEstado())) {
+            throw new IllegalStateException("Solo se puede crear una atención para citas en estado ACTIVA.");
+        }
+
         List<Servicio> servicios = servicioRepository.findAllById(dto.getServicioIds());
+
+        // Se cambia el estado de la cita a FINALIZADA
+        cita.setEstado("FINALIZADA");
+        citaRepository.save(cita);
 
         Atencion atencion = new Atencion();
         atencion.setDiagnostico(dto.getDiagnostico());
@@ -62,6 +70,7 @@ public class AtencionServiceImpl implements AtencionService {
         atencion.setUsernameKeycloak(dto.getUsernameKeycloak());
         atencion.setCita(cita);
         atencion.setServicios(servicios);
+        atencion.setEstado(true);
 
         return convertirADTO(atencionRepository.save(atencion));
     }
@@ -97,12 +106,30 @@ public class AtencionServiceImpl implements AtencionService {
         Atencion atencion = atencionRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Atención no encontrada"));
 
-        Cita cita = atencion.getCita();
-        if (cita != null) {
-            cita.setAtencion(null);
-            citaRepository.save(cita);
+        atencion.setEstado(false);
+
+        // Cita cita = atencion.getCita();
+        // if (cita != null) {
+        // cita.setAtencion(null);
+        // citaRepository.save(cita);
+        // }
+
+        atencionRepository.save(atencion);
+    }
+
+    @Override
+    public List<AtencionResponseDTO> buscarAtencionesPorUsuario(String usernameKeycloak, Boolean estado) {
+        List<Atencion> atenciones;
+
+        if (estado != null) {
+            atenciones = atencionRepository.findByUsernameKeycloakAndEstado(usernameKeycloak, estado);
+        } else {
+            atenciones = atencionRepository.findByUsernameKeycloak(usernameKeycloak);
         }
-        atencionRepository.delete(atencion);
+
+        return atenciones.stream()
+                .map(this::convertirADTO)
+                .collect(Collectors.toList());
     }
 
     private AtencionResponseDTO convertirADTO(Atencion atencion) {

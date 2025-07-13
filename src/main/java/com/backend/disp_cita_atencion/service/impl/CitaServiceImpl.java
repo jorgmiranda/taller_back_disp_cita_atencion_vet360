@@ -80,13 +80,29 @@ public class CitaServiceImpl implements CitaService {
         cita.setMotivo(dto.getMotivo());
         cita.setUsernameKeycloak(dto.getUsernameKeycloak());
 
-        if (dto.getDisponibilidadId() != null) {
-            Disponibilidad disponibilidad = disponibilidadRepository.findById(dto.getDisponibilidadId())
+        // Cambiar disponibilidad si corresponde
+        if (dto.getDisponibilidadId() != null &&
+                !dto.getDisponibilidadId().equals(cita.getDisponibilidad().getIdDisponibilidad())) {
+
+            // Liberar la disponibilidad actual
+            Disponibilidad disponibilidadAnterior = cita.getDisponibilidad();
+            if (disponibilidadAnterior != null) {
+                disponibilidadAnterior.setDisponible(true);
+                disponibilidadRepository.save(disponibilidadAnterior);
+            }
+
+            // Asignar nueva disponibilidad
+            Disponibilidad nuevaDisponibilidad = disponibilidadRepository.findById(dto.getDisponibilidadId())
                     .orElseThrow(() -> new ResourceNotFoundException("Disponibilidad no encontrada"));
-            cita.setDisponibilidad(disponibilidad);
+            nuevaDisponibilidad.setDisponible(false);
+            disponibilidadRepository.save(nuevaDisponibilidad);
+
+            cita.setDisponibilidad(nuevaDisponibilidad);
         }
 
-        if (dto.getMascotaId() != null) {
+        // Actualizar mascota si es necesario
+        if (dto.getMascotaId() != null &&
+                (cita.getMascota() == null || !dto.getMascotaId().equals(cita.getMascota().getIdMascota()))) {
             Mascota mascota = mascotaRepository.findById(dto.getMascotaId())
                     .orElseThrow(() -> new ResourceNotFoundException("Mascota no encontrada"));
             cita.setMascota(mascota);
@@ -111,6 +127,12 @@ public class CitaServiceImpl implements CitaService {
         }
 
         citaRepository.save(cita);
+    }
+
+    @Override
+    public List<CitaResponseDTO> obtenerCitasPorUsernameKeycloak(String username) {
+        List<Cita> citas = citaRepository.findByUsernameKeycloak(username);
+        return citas.stream().map(this::convertirADTO).collect(Collectors.toList());
     }
 
     private CitaResponseDTO convertirADTO(Cita cita) {

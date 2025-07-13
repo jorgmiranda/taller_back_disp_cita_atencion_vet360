@@ -1,6 +1,7 @@
 package com.backend.disp_cita_atencion.controller;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,8 +15,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
 
 import com.backend.disp_cita_atencion.dto.request.CitaRequestDTO;
 import com.backend.disp_cita_atencion.dto.response.CitaResponseDTO;
@@ -24,7 +25,7 @@ import com.backend.disp_cita_atencion.service.CitaService;
 
 @RestController
 @RequestMapping("/api/cita")
-//@CrossOrigin(origins = "*")
+// @CrossOrigin(origins = "*")
 public class CitaController {
 
     @Autowired
@@ -63,5 +64,22 @@ public class CitaController {
     public ResponseEntity<ApiResponse<Void>> delete(@PathVariable Long id) {
         citaService.eliminarCita(id);
         return ResponseEntity.ok(ApiResponse.exito("Eliminado correctamente", null));
+    }
+
+    @GetMapping("/por-usuario/{username}")
+    @PreAuthorize("hasAnyRole('ADMIN', 'VETERINARIO', 'ASISTENTE')")
+    public ResponseEntity<ApiResponse<List<CitaResponseDTO>>> obtenerCitasPorUsuarioKeycloak(
+            @PathVariable String username,
+            @RequestParam(required = false) String estado) {
+
+        List<CitaResponseDTO> citas = citaService.obtenerCitasPorUsernameKeycloak(username);
+
+        if (estado != null) {
+            citas = citas.stream()
+                    .filter(c -> c.getEstado() != null && c.getEstado().equalsIgnoreCase(estado))
+                    .collect(Collectors.toList());
+        }
+
+        return ResponseEntity.ok(ApiResponse.exito("Listado exitoso", citas));
     }
 }
