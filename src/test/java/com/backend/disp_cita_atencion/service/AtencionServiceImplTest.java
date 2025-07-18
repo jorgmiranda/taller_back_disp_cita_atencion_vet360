@@ -20,6 +20,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
@@ -247,6 +248,7 @@ public class AtencionServiceImplTest {
         servicio3.setNombreServicio("Radiografía");
         servicio3.setPrecio(20000);
         servicio3.setEstado(true);
+        servicio3.setInsumos(new ArrayList<>()); // Para evitar que getInsumos() sea null
 
         AtencionRequestDTO requestDTO = new AtencionRequestDTO("Resfriado", "Descanso", "Sin fiebre", new Date(), 10000, "veterinarioD", 5L, Arrays.asList(3L));
         
